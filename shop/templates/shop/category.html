@@ -1,0 +1,28 @@
+
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} - Магазин{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ category.name }}</h1>
+        <div class="products">
+            {% for product in products %}
+                <div class="product">
+                    <div class="product-badge">0 - 0 - 24</div>
+                    <a href="{{ product.get_absolute_url }}">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    </a>
+                    <h2>{{ product.price }}₸</h2>
+                    {% comment %} <div class="price-discount">Цена с кешбэком {{ product.discount_price }}₸</div>
+                    <div class="price-difference">Большая разница {{ product.price_difference }}₸</div> {% endcomment %}
+                    <p class="product-name">{{ product.name }}</p>
+                    <div class="installment">от {{ product.installment }} ₸/мес × 24</div>
+                    <button class="cart-button">В корзину</button>
+                </div>
+            {% empty %}
+                <p>Товары не найдены.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
