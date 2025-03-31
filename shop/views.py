@@ -20,7 +20,9 @@ def catefory_page(request, slug):
 
 def product_detail(request, slug):
     product = Product.objects.get(slug=slug)
+    related_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:5]
     context = {
-        'product': product
+        'product': product,
+        'related_products': related_products
     }
     return render(request, 'shop/product_detail.html', context=context)

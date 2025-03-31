@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} - Магазин{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="product-detail">
+            <div class="product-image">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            </div>
+            <div class="product-info">
+                <h1>{{ product.name }}</h1>
+                <p class="price">{{ product.price }}₸</p>
+                {% if product.discount_price %}
+                    <p class="discount-price">Цена с кешбэком {{ product.discount_price }}₸</p>
+                {% endif %}
+                <p class="description">{{ product.description }}</p>
+                <div class="installment">от {{ product.installment }}₸/мес × 24</div>
+                <button class="cart-button add-to-cart" data-id="{{ product.id }}">Добавить в корзину</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {% if related_products %}
+            <div class="products">
+                {% for product in related_products %}
+                    <div class="product">
+                        <div class="product-badge">0 - 0 - 24</div>
+                        <a href="{{ product.get_absolute_url }}">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        </a>
+                        <h2>{{ product.price }}₸</h2>
+                        <p class="product-name">{{ product.name }}</p>
+                        <div class="installment">от {{ product.installment }} ₸/мес × 24</div>
+                        <button class="cart-button add-to-cart" data-id="{{ product.id }}">Добавить в корзину</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="text-align: center;">Нету похожих товаров.</p>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".add-to-cart").click(function() {
+                let productId = $(this).data("id");
+                let csrf_token = "{{ csrf_token }}";
+
+                $.ajax({
+                    url: "{% url 'cart:cart_add' 0 %}".replace("0", productId),
+                    type: "POST",
+                    data: { "product_id": productId },
+                    headers: { "X-CSRFToken": csrf_token},
+                    success: function(response) {
+                        alert("Товар добавлен в корзину!");
+                    },
+                    error: function() {
+                        alert("Ошибка добавления!");
+                    }
+                })
+            })
+        })
+    </script>
+
+    <style>
+        .product-detail {
+            display: flex;
+            gap: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .discount-price {
+            background-color: #90ee90;
+            color: #000;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .installment {
+            background-color: #90ee90;
+            color: #000;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .cart-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .cart-button:hover {
+            background-color: #218838;
+        }
+    </style>
+{% endblock %}ч
