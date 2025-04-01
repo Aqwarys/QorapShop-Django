@@ -48,21 +48,31 @@
             $(".add-to-cart").click(function() {
                 let productId = $(this).data("id");
                 let csrf_token = "{{ csrf_token }}";
+                let $cartCount = $("#cart-count"); 
 
                 $.ajax({
                     url: "{% url 'cart:cart_add' 0 %}".replace("0", productId),
                     type: "POST",
                     data: { "product_id": productId },
-                    headers: { "X-CSRFToken": csrf_token},
+                    headers: { "X-CSRFToken": csrf_token },
                     success: function(response) {
-                        alert("Товар добавлен в корзину!");
+                        $cartCount.text(response.total_items);
+
+                        if (response.total_items > 0) {
+                            $cartCount.addClass("visible").removeClass("hidden");
+                        } else {
+                            $cartCount.addClass("hidden").removeClass("visible");
+                        }
+
+                        $cartCount.fadeIn();
                     },
-                    error: function() {
-                        alert("Ошибка добавления!");
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                        alert("Ошибка добавления товара!");
                     }
-                })
-            })
-        })
+                });
+            });
+        });
     </script>
 
     <style>

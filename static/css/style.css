@@ -197,3 +197,35 @@ body {
 .cart-button:hover {
     background-color: #218838;
 }
+
+.cart-link {
+    position: relative;
+    display: inline-block;
+    font-size: 18px;
+    text-decoration: none;
+    color: #333;
+}
+
+.cart-count {
+    display: none;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+}
+
+.cart-count.hidden {
+    display: none;
+}
+
+.cart-count.visible {
+    display: inline-block;
+}

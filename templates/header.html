@@ -11,7 +11,12 @@
             </div>
             <div class="icons">
                 <a href="/favorites">❤️</a>
-                <a href="{% url "cart:cart_detail" %}">🛒</a>
+                <a href="{% url 'cart:cart_detail' %}" class="cart-link">
+                    🛒
+                    <span id="cart-count" class="cart-count {% if cart_count|length > 0 %}visible{% else %}hidden{% endif %}">
+                        {{ cart_count|length }}
+                    </span>
+                </a>
                 <a href="/profile">👤</a>
             </div>
         </nav>

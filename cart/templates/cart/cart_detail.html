@@ -115,6 +115,7 @@
                         item.find(".quantity-input").val(response.quantity);
                         item.find(".item-total").text(response.total_price);
                         $("#total-price").text(response.cart_total);
+                        $("#cart-count").text(response.cart_count);
                         if (response.quantity === 0) {
                             item.remove();
                         }

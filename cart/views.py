@@ -9,10 +9,9 @@ def cart_add(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
     cart.add(product)
-    return JsonResponse({'message': 'Товар добавлен', 'total_items': len(cart)})
+    return JsonResponse({'message': 'Товар добавлен', 'total_items': len(cart.cart)})
 
 def cart_update(request):
-    """ Обновление количества товара в корзине через AJAX """
     if request.method == "POST":
         cart = Cart(request)
         product_id = request.POST.get("product_id")
@@ -32,7 +31,8 @@ def cart_update(request):
             "success": True,
             "quantity": cart.cart[product_id]["quantity"] if product_id in cart.cart else 0,
             "total_price": cart.get_item_total_price(product) if product_id in cart.cart else 0,
-            "cart_total": cart.get_total_price()
+            "cart_total": cart.get_total_price(),
+            "cart_count": len(cart.cart),
         })
 
     return JsonResponse({"success": False}, status=400)
