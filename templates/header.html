@@ -10,7 +10,12 @@
                 <button type="submit">🔍</button>
             </div>
             <div class="icons">
-                <a href="/favorites">❤️</a>
+                <a href="{% url 'favorites:favorites_detail' %}" class="favorites-link">
+                    ❤️
+                    <span id="favorites-count" class="favorites-count {% if favorites|length > 0 %}visible{% else %}hidden{% endif %}">
+                        {{ favorites|length }}
+                    </span>
+                </a>
                 <a href="{% url 'cart:cart_detail' %}" class="cart-link">
                     🛒
                     <span id="cart-count" class="cart-count {% if cart_count|length > 0 %}visible{% else %}hidden{% endif %}">
