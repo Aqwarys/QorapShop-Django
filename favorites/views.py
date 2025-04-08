@@ -20,11 +20,6 @@ def favorites_add(request, product_id):
 def favorites_remove(request, product_id):
     favorites = Favorites(request)
     product = get_object_or_404(Product, id=product_id)
-    if not product:
-        return JsonResponse({
-            'success': False,
-            'total_items': len(favorites)
-        })
     favorites.remove(product)
     return JsonResponse({
         'success': True,

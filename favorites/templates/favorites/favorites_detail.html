@@ -19,8 +19,8 @@
                         {% endif %}
                     </div>
                     <div class="favorite-actions">
-                        <button class="add-to-cart-btn">🛒 В корзину</button>
-                        <button class="remove-favorite-btn">❌ Удалить</button>
+                        <button class="add-to-cart-btn" data-id="{{ item.product.id }}">🛒 В корзину</button>
+                        <button class="remove-favorite-btn" data-id="{{ item.product.id }}">❌ Удалить</button>
                     </div>
                 </div>
             </div>
@@ -149,5 +149,48 @@
 </style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $(".remove-favorite-btn").click(function(){
+            let product_id = $(this).data("id");
+            let csrf_token = "{{ csrf_token }}";
+            let $favoritesCount = $("#favorites-count");
 
+            $.ajax({
+                url: "{% url 'favorites:favorites_remove' 0 %}".replace("0", product_id),
+                type: "POST",
+                data: {"product_id": product_id},
+                headers: {"X-CSRFToken": csrf_token},
+                success: function(response) {
+                    $favoritesCount.text(response.total_items);
+
+                    if (response.total_items > 0) {
+                        $favoritesCount.addClass("visible").removeClass("hidden");
+                    } else {
+                        $favoritesCount.addClass("hidden").removeClass("visible");
+                    }
+
+                    $(`[data-id='${product_id}']`).remove();
+
+                    if ($(".favorite-item").length === 0) {
+                        $(".favorites-grid").html('<p class="empty-favorites">В избранном пока ничего нет</p>');
+                    }
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText);
+                    alert("Ошибка удаления товара!")
+                }
+            })
+        })
+    })
+</script>
+<script>
+    $(document).ready(function(){
+        $(".add-to-cart-btn").click(function(){
+            let product_id = $(this).data("id");
+            let csrf_token = "{% csrf_token %}";
+            let $cartCount = $("#cart-count");
+        })
+    })
+</script>
 {% endblock %}
