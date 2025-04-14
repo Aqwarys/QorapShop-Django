@@ -38,10 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'widget_tweaks',
+
     #apps
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
     'favorites.apps.FavoritesConfig',
+    'user.apps.UserConfig',
 ]
 
 MIDDLEWARE = [
@@ -106,6 +109,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'user.backends.EmailBackend',
+]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -136,6 +143,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'user.User'
 
 CART_SESSION_ID = 'cart'
 FAV_SESSION_ID = 'favorites'

@@ -18,11 +18,47 @@
                     <div class="price-difference">Большая разница {{ product.price_difference }}₸</div> {% endcomment %}
                     <p class="product-name">{{ product.name }}</p>
                     <div class="installment">от {{ product.installment }} ₸/мес × 24</div>
-                    <button class="cart-button">В корзину</button>
+                    <button class="cart-button" data-id="{{ product.id }}">В корзину</button>
                 </div>
             {% empty %}
                 <p>Товары не найдены.</p>
             {% endfor %}
         </div>
     </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $(".cart-button").click(function(){
+            let productId = $(this).data("id");
+            let csrf_token = "{{ csrf_token }}";
+            let $cartCount = $("#cart-count");
+
+            $.ajax({
+                url: "{% url 'cart:cart_add' 0 %}".replace("0", productId),
+                type: "POST",
+                data: {"product_id": productId},
+                headers: {"X-CSRFToken": csrf_token},
+                success: function(response){
+                    $cartCount.text(response.total_items);
+
+                    if (response.total_items > 0) {
+                        $cartCount.addClass("visible").removeClass("hidden");
+                    } else {
+                        $cartCount.addClass("hidden").removeClass("visible");
+                    }
+
+                    $cartCount.fadeIn();
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText);
+                    alert("Ошибка добавления товара!");
+                }
+            });
+        });
+    });
+</script>
+
+
 {% endblock %}
