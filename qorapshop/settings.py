@@ -10,6 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
+import environ
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,6 +48,7 @@ INSTALLED_APPS = [
     'cart.apps.CartConfig',
     'favorites.apps.FavoritesConfig',
     'user.apps.UserConfig',
+    'orders.apps.OrdersConfig',
 ]
 
 MIDDLEWARE = [
@@ -147,3 +151,12 @@ AUTH_USER_MODEL = 'user.User'
 
 CART_SESSION_ID = 'cart'
 FAV_SESSION_ID = 'favorites'
+
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+environ.Env().read_env(os.path.join(BASE_DIR, '.env'))
+
+STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
+STRIPE_API_VERSION = env('STRIPE_API_VERSION')

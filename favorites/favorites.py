@@ -21,7 +21,7 @@ class Favorites:
 
     def __len__(self):
         return len(self.favorites)
-    
+
     def save(self):
         self.session[settings.FAV_SESSION_ID] = self.favorites
         self.session.modified = True
@@ -35,11 +35,16 @@ class Favorites:
     def __iter__(self):
         product_ids = self.favorites.keys()
         products = Product.objects.filter(id__in=product_ids)
+        products_map = {str(product.id): product for product in products}
 
-        for product in products:
-            self.favorites[str(product.id)]['product'] = product
-            self.favorites[str(product.id)]['price'] = Decimal(self.favorites[str(product.id)]['price'])
-            yield self.favorites[str(product.id)]
+        for product_id, item in self.favorites.items():
+            product = products_map[product_id]
+
+            item_copy = item.copy()
+            item_copy['product'] = product
+            item_copy['total_price'] = Decimal(item['price'])
+
+            yield item_copy
 
 
     def clear(self):

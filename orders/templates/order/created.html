@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Заказ оформлен{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <h2 class="text-success">Спасибо за заказ!</h2>
+    <p>Ваш заказ успешно оформлен. Мы свяжемся с вами в ближайшее время.</p>
+    <a href="{% url 'shop:home' %}" class="btn btn-primary mt-3">Продолжить покупки</a>
+</div>
+{% endblock %}

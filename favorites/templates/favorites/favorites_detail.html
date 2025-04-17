@@ -11,13 +11,15 @@
                 <div class="favorite-badge">❤️</div>
                 <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="favorite-image">
                 <div class="favorite-info">
-                    <h3 class="favorite-name">{{ item.product.name }}</h3>
-                    <div class="price-block">
-                        <p class="current-price">{{ item.price }}₸</p>
-                        {% if item.product.discount_price %}
-                            <p class="old-price">{{ item.product.price }}₸</p>
-                        {% endif %}
-                    </div>
+                    <a href="{% url "shop:product_detail" item.product.slug %}" class="link-reset">
+                        <h3 class="favorite-name">{{ item.product.name }}</h3>
+                        <div class="price-block">
+                            <p class="current-price">{{ item.price }}₸</p>
+                            {% if item.product.discount_price %}
+                                <p class="old-price">{{ item.product.price }}₸</p>
+                            {% endif %}
+                        </div>
+                    </a>
                     <div class="favorite-actions">
                         <button class="add-to-cart-btn" data-id="{{ item.product.id }}">🛒 В корзину</button>
                         <button class="remove-favorite-btn" data-id="{{ item.product.id }}">❌ Удалить</button>
@@ -146,6 +148,12 @@
         font-size: 18px;
         color: #888;
     }
+
+    .link-reset {
+        text-decoration: none;
+        color: inherit;
+    }
+
 </style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

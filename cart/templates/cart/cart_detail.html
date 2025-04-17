@@ -26,6 +26,11 @@
         {% endfor %}
     </ul>
     <p class="cart-total"><strong>Общая сумма: <span id="total-price">{{ cart.get_total_price }}</span>₸</strong></p>
+    {% if cart %}
+        <form action="{% url 'orders:order_create' %}" method="get">
+            <button type="submit" class="btn btn-success">🛍 Купить</button>
+        </form>
+    {% endif %}
 </div>
 
 <style>
