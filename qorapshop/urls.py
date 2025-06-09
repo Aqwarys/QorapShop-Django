@@ -11,6 +11,7 @@ urlpatterns = [
     path('user/', include('user.urls', namespace='user')),
     path('order/', include('orders.urls', namespace='orders')),
     path('payment/', include('payment.urls', namespace='payment')),
+    path('api/v1/users/', include('user.api.user.urls')),
 ]
 
 if settings.DEBUG:
