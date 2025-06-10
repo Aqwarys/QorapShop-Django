@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     'widget_tweaks',
     'rest_framework',
+    # 'django_filters',
 
     #apps
     'shop.apps.ShopConfig',
@@ -162,3 +163,12 @@ environ.Env().read_env(os.path.join(BASE_DIR, '.env'))
 STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
 STRIPE_API_VERSION = env('STRIPE_API_VERSION')
+
+
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+#     'DEFAULT_RENDERER_CLASSES': [
+#         # 'rest_framework.renderers.JSONRenderer',
+#     ],
+# }

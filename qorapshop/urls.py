@@ -11,7 +11,10 @@ urlpatterns = [
     path('user/', include('user.urls', namespace='user')),
     path('order/', include('orders.urls', namespace='orders')),
     path('payment/', include('payment.urls', namespace='payment')),
+
+    #api-endpoints
     path('api/v1/users/', include('user.api.user.urls')),
+    path('api/v1/shop/', include('shop.api.shop.urls')),
 ]
 
 if settings.DEBUG:
